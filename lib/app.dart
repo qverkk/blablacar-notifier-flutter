@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/core/auth/bloc/auth_bloc.dart';
+import 'package:myapp/core/auth/screens/sign_in.dart';
+import 'package:myapp/core/auth/screens/sign_up.dart';
 import 'package:myapp/screens/home.dart';
 import 'package:myapp/screens/launch.dart';
-import 'package:myapp/screens/sign_in.dart';
-import 'package:myapp/screens/sign_up.dart';
 
 class AppWrapper extends StatelessWidget {
   const AppWrapper({Key? key}) : super(key: key);
