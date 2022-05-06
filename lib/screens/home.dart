@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/core/auth/bloc/auth_bloc.dart';
+import 'package:myapp/routes/app_router.gr.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -16,6 +18,8 @@ class HomeScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
+        leading: Container(),
+        leadingWidth: 0,
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -25,6 +29,9 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {
               final authBloc = BlocProvider.of<AuthBloc>(context);
               authBloc.add(SignOut());
+
+              var router = AutoRouter.of(context);
+              router.replaceAll([const AppWrapper()]);
             },
           ),
         ],
@@ -110,7 +117,9 @@ class UserInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-      if (state.message == null) {
+      if (state is! AuthAuthenticated) {
+        return const CircularProgressIndicator();
+      } else if (state.message == null) {
         return buildUserInformation(context, state);
       } else {
         //if there is an error message, return an error widget

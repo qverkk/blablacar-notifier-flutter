@@ -1,10 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/core/auth/bloc/auth_bloc.dart';
 import 'package:myapp/core/auth/screens/sign_in.dart';
 import 'package:myapp/core/auth/screens/sign_up.dart';
-import 'package:myapp/screens/home.dart';
-import 'package:myapp/screens/launch.dart';
+import 'package:myapp/routes/app_router.gr.dart';
+import 'package:myapp/screens/auth_fallback_page.dart';
 
 class AppWrapper extends StatelessWidget {
   const AppWrapper({Key? key}) : super(key: key);
@@ -22,9 +23,8 @@ class AppWrapper extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        print(state);
         if (state is AuthUninitialized) {
-          return const LaunchScreen();
+          return const AuthFallbackPage();
         } else if (state is AuthLoading) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
@@ -37,10 +37,11 @@ class AppWrapper extends StatelessWidget {
         } else if (state is AuthLoginInitialized) {
           return const SignInScreen();
         } else if (state is AuthAuthenticated) {
-          return const HomeScreen();
+          var router = AutoRouter.of(context);
+          router.push(const HomeRouter());
         }
 
-        return const LaunchScreen();
+        return const AuthFallbackPage();
       },
     );
   }

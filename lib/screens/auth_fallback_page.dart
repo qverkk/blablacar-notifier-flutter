@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/core/auth/bloc/auth_bloc.dart';
 
-class LaunchScreen extends StatelessWidget {
-  const LaunchScreen({Key? key}) : super(key: key);
+class AuthFallbackPage extends StatelessWidget {
+  const AuthFallbackPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

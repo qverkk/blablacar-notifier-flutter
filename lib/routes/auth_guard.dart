@@ -11,12 +11,13 @@ class AuthGuard extends AutoRouteGuard {
 
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) async {
-    var context = router.navigatorKey.currentContext!;
-    final authBloc = BlocProvider.of<AuthBloc>(context);
-    if (authBloc is AuthAuthenticated) {
-      resolver.next(true);
-    } else {
-      router.push(const AppWrapper());
-    }
+    // var context = router.navigatorKey.currentContext!;
+    // final authBloc = BlocProvider.of<AuthBloc>(context);
+    // print("Current bloc: ${authBloc is AuthAuthenticated}");
+    // if (authBloc is AuthAuthenticated) {
+    resolver.next(true);
+    // } else {
+    //   router.push(const AppWrapper());
+    // }
   }
 }
