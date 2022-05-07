@@ -43,6 +43,7 @@ dependencies:
   auto_route: ^3.2.4
   salomon_bottom_bar: ^3.3.0
   intl: ^0.17.0
+  dio: ^4.0.6
   # ory_kratos_client: ^0.9.0-alpha.3
 
 dev_dependencies:

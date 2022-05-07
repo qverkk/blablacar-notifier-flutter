@@ -8,8 +8,6 @@ abstract class TripDetailsState extends Equatable {
   List<Object> get props => [];
 }
 
-class Initial extends TripDetailsState {}
-
 class Loading extends TripDetailsState {}
 
 class TripDetailsLoaded extends TripDetailsState {
