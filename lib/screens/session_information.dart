@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/core/auth/bloc/auth_bloc.dart';
 import 'package:myapp/routes/app_router.gr.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class SessionInformationScreen extends StatelessWidget {
+  const SessionInformationScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,47 +56,71 @@ class UserInformation extends StatelessWidget {
               "Hello, User!",
               style: TextStyle(fontSize: 20),
             ),
-            const Text("Here is your ORY Kratos Session Token:",
-                style: TextStyle(fontSize: 20)),
-            Container(
-              width: 350,
-              height: 100,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0),
-                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                  color: Colors.deepOrange[50]!),
-              child: Center(
-                  child: Text(currentState.token,
-                      style: const TextStyle(fontSize: 17))),
+            const Text(
+              "Here is your ORY Kratos Session Token:",
+              style: TextStyle(fontSize: 20),
             ),
-            const Text("This is the id ORY Kratos assigned you:",
-                style: TextStyle(fontSize: 20)),
             Container(
               width: 350,
               height: 100,
               decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0),
-                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                  color: Colors.deepOrange[50]!),
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.primary,
+                  width: 2.0,
+                ),
+                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                color: Colors.cyan,
+              ),
               child: Center(
-                  child: Text(currentState.id,
-                      style: const TextStyle(fontSize: 17))),
+                child: Text(
+                  currentState.token,
+                  style: const TextStyle(fontSize: 17),
+                ),
+              ),
             ),
-            const Text("This is the email adress you used:",
-                style: TextStyle(fontSize: 20)),
+            const Text(
+              "This is the id ORY Kratos assigned you:",
+              style: TextStyle(fontSize: 20),
+            ),
             Container(
               width: 350,
               height: 100,
               decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0),
-                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                  color: Colors.deepOrange[50]!),
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.primary,
+                  width: 2.0,
+                ),
+                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                color: Colors.cyan,
+              ),
               child: Center(
-                  child: Text(currentState.email,
-                      style: const TextStyle(fontSize: 17))),
+                child: Text(
+                  currentState.id,
+                  style: const TextStyle(fontSize: 17),
+                ),
+              ),
+            ),
+            const Text(
+              "This is the email adress you used:",
+              style: TextStyle(fontSize: 20),
+            ),
+            Container(
+              width: 350,
+              height: 100,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.primary,
+                  width: 2.0,
+                ),
+                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                color: Colors.cyan,
+              ),
+              child: Center(
+                child: Text(
+                  currentState.email,
+                  style: const TextStyle(fontSize: 17),
+                ),
+              ),
             ),
           ],
         ),

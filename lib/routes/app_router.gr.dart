@@ -15,7 +15,7 @@ import 'package:flutter/material.dart' as _i6;
 
 import '../app.dart' as _i1;
 import '../core/trip-details/screens/trip_details_screen.dart' as _i4;
-import '../screens/home.dart' as _i3;
+import '../screens/session_information.dart' as _i3;
 import '../screens/home_page.dart' as _i2;
 import 'auth_guard.dart' as _i7;
 
@@ -39,7 +39,7 @@ class AppRouter extends _i5.RootStackRouter {
     },
     HomeScreenRouter.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i3.HomeScreen());
+          routeData: routeData, child: const _i3.SessionInformationScreen());
     },
     TripDetailsRouter.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
@@ -81,7 +81,7 @@ class HomeRouter extends _i5.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i3.HomeScreen]
+/// [_i3.SessionInformationScreen]
 class HomeScreenRouter extends _i5.PageRouteInfo<void> {
   const HomeScreenRouter() : super(HomeScreenRouter.name, path: '');
 
