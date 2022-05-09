@@ -48,7 +48,8 @@ class TripDetailsScreen extends StatelessWidget {
                     itemCount: state.data.length,
                   ),
                 ),
-                onRefresh: () => Future.sync(() => bloc.add(InitTripDetails())),
+                onRefresh: () =>
+                    Future.microtask(() => bloc.add(InitTripDetails())),
               );
             } else if (state is TripDetailsError) {
               return errorMessageWithRefreshButton(
