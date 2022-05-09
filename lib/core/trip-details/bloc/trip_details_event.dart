@@ -19,3 +19,14 @@ class LoadTripDetailsEvent extends TripDetailsEvent {
   @override
   List<Object> get props => [tripDetails];
 }
+
+class OpenNewTripDetailsScreen extends TripDetailsEvent {}
+
+class AddNewTripDetails extends TripDetailsEvent {
+  final TripDetails tripDetails;
+
+  const AddNewTripDetails(this.tripDetails);
+
+  @override
+  List<Object> get props => [tripDetails];
+}

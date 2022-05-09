@@ -18,6 +18,8 @@ class TripDetailsBloc extends Bloc<TripDetailsEvent, TripDetailsState> {
   TripDetailsBloc({required this.repository, required this.authBloc})
       : super(Loading()) {
     on<InitTripDetails>(_initTripDetails);
+    on<OpenNewTripDetailsScreen>(_openNewTripDetailsScreen);
+    on<AddNewTripDetails>(_addNewTripDetails);
   }
 
   FutureOr<void> _initTripDetails(
@@ -31,6 +33,31 @@ class TripDetailsBloc extends Bloc<TripDetailsEvent, TripDetailsState> {
       emit.call(TripDetailsLoaded(data: tripDetails));
     } on DioError catch (e) {
       emit.call(TripDetailsError(message: e.message));
+    }
+  }
+
+  FutureOr<void> _openNewTripDetailsScreen(
+    OpenNewTripDetailsScreen event,
+    Emitter<TripDetailsState> emit,
+  ) {
+    emit.call(AddingTripDetails());
+  }
+
+  FutureOr<void> _addNewTripDetails(
+    AddNewTripDetails event,
+    Emitter<TripDetailsState> emit,
+  ) async {
+    final authState = authBloc.state as AuthAuthenticated;
+    emit.call(Loading());
+    var success = await repository.save(
+      event.tripDetails,
+      authState.token,
+    );
+
+    if (success) {
+      add(InitTripDetails());
+    } else {
+      add(OpenNewTripDetailsScreen());
     }
   }
 }

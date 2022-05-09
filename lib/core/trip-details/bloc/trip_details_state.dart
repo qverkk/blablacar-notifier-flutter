@@ -10,6 +10,8 @@ abstract class TripDetailsState extends Equatable {
 
 class Loading extends TripDetailsState {}
 
+class AddingTripDetails extends TripDetailsState {}
+
 class TripDetailsLoaded extends TripDetailsState {
   final List<TripDetails> data;
   const TripDetailsLoaded({required this.data});

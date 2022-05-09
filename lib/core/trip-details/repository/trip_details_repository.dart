@@ -9,4 +9,7 @@ class TripDetailsRepository {
   @override
   Future<List<TripDetails>> getAll(String sessionToken) =>
       service.fetchTripDetails(sessionToken);
+
+  Future<bool> save(TripDetails tripDetails, String sessionToken) =>
+      service.saveTripDetails(tripDetails, sessionToken);
 }

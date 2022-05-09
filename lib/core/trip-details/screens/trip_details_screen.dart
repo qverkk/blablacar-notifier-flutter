@@ -6,6 +6,7 @@ import 'package:myapp/core/auth/bloc/auth_bloc.dart';
 import 'package:myapp/core/trip-details/bloc/trip_details_bloc.dart';
 import 'package:myapp/core/trip-details/models/trip_details.dart';
 import 'package:myapp/core/trip-details/repository/trip_details_repository.dart';
+import 'package:myapp/core/trip-details/screens/new_trip_details_screen.dart';
 import 'package:myapp/core/trip-details/service/trip_details_service.dart';
 
 class TripDetailsScreen extends StatelessWidget {
@@ -36,9 +37,33 @@ class TripDetailsScreen extends StatelessWidget {
               );
             }
 
-            if (state is TripDetailsLoaded) {
+            if (state is AddingTripDetails) {
+              return const NewTripDetailsScreen();
+            } else if (state is TripDetailsLoaded) {
               return RefreshIndicator(
                 child: Scaffold(
+                  appBar: AppBar(
+                    title: Text(
+                      "Trip details",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    leading: Container(),
+                    leadingWidth: 0,
+                    actions: <Widget>[
+                      IconButton(
+                        icon: Icon(
+                          Icons.add,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        onPressed: () {
+                          bloc.add(OpenNewTripDetailsScreen());
+                        },
+                      ),
+                    ],
+                  ),
                   body: ListView.separated(
                     itemBuilder: (context, index) =>
                         _TripDetailsListItem(item: state.data[index]),
