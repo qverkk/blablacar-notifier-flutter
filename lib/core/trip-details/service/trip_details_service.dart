@@ -45,4 +45,20 @@ class TripDetailsService {
       return false;
     }
   }
+
+  Future<void> deleteById(String id, String sessionToken) async {
+    final Dio client = Dio();
+    try {
+      await client.delete(
+        'http://192.168.0.199:8080/trip-details/$id',
+        options: Options(
+          headers: {
+            "kratos-session": sessionToken,
+          },
+          sendTimeout: 5,
+          receiveTimeout: 5,
+        ),
+      );
+    } catch (_) {}
+  }
 }

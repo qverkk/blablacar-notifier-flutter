@@ -12,4 +12,7 @@ class TripDetailsRepository {
 
   Future<bool> save(TripDetails tripDetails, String sessionToken) =>
       service.saveTripDetails(tripDetails, sessionToken);
+
+  Future<void> deleteById(String id, String sessionToken) =>
+      service.deleteById(id, sessionToken);
 }

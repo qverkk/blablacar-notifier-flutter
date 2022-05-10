@@ -126,6 +126,21 @@ class _TripDetailsListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("${item.fromCity} -> ${item.toCity}");
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        children: [
+          Text("${item.fromCity} -> ${item.toCity} (${item.startDate})"),
+          const Spacer(),
+          IconButton(
+            onPressed: () {
+              final bloc = BlocProvider.of<TripDetailsBloc>(context);
+              bloc.add(DeleteTripDetailsEvent(item.id!));
+            },
+            icon: const Icon(Icons.delete_forever_outlined),
+          ),
+        ],
+      ),
+    );
   }
 }

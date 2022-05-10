@@ -20,6 +20,7 @@ class TripDetailsBloc extends Bloc<TripDetailsEvent, TripDetailsState> {
     on<InitTripDetails>(_initTripDetails);
     on<OpenNewTripDetailsScreen>(_openNewTripDetailsScreen);
     on<AddNewTripDetails>(_addNewTripDetails);
+    on<DeleteTripDetailsEvent>(_deleteTripDetails);
   }
 
   FutureOr<void> _initTripDetails(
@@ -59,5 +60,18 @@ class TripDetailsBloc extends Bloc<TripDetailsEvent, TripDetailsState> {
     } else {
       add(OpenNewTripDetailsScreen());
     }
+  }
+
+  Future<FutureOr<void>> _deleteTripDetails(
+    DeleteTripDetailsEvent event,
+    Emitter<TripDetailsState> emit,
+  ) async {
+    final authState = authBloc.state as AuthAuthenticated;
+    emit.call(Loading());
+    await repository.deleteById(
+      event.id,
+      authState.token,
+    );
+    add(InitTripDetails());
   }
 }

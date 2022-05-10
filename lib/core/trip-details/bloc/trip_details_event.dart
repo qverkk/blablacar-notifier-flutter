@@ -30,3 +30,12 @@ class AddNewTripDetails extends TripDetailsEvent {
   @override
   List<Object> get props => [tripDetails];
 }
+
+class DeleteTripDetailsEvent extends TripDetailsEvent {
+  final String id;
+
+  const DeleteTripDetailsEvent(this.id);
+
+  @override
+  List<Object> get props => [id];
+}
