@@ -9,17 +9,6 @@ abstract class TripDetailsEvent extends Equatable {
 
 class InitTripDetails extends TripDetailsEvent {}
 
-class RefreshTripDetails extends TripDetailsEvent {}
-
-class LoadTripDetailsEvent extends TripDetailsEvent {
-  final List<TripDetails> tripDetails;
-
-  const LoadTripDetailsEvent(this.tripDetails);
-
-  @override
-  List<Object> get props => [tripDetails];
-}
-
 class OpenNewTripDetailsScreen extends TripDetailsEvent {}
 
 class AddNewTripDetails extends TripDetailsEvent {

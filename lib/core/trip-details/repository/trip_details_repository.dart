@@ -10,6 +10,9 @@ class TripDetailsRepository {
   Future<List<TripDetails>> getAll(String sessionToken) =>
       service.fetchTripDetails(sessionToken);
 
+  Future<num> getTripsFound(String tripRequestId, String sessionToken) =>
+      service.countFoundTrips(tripRequestId, sessionToken);
+
   Future<bool> save(TripDetails tripDetails, String sessionToken) =>
       service.saveTripDetails(tripDetails, sessionToken);
 

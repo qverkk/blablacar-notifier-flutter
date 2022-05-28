@@ -130,7 +130,8 @@ class _TripDetailsListItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         children: [
-          Text("${item.fromCity} -> ${item.toCity} (${item.startDate})"),
+          Text(
+              "${item.fromCity} -> ${item.toCity} (${item.startDate}).\n Trips found: ${item.foundTrips}"),
           const Spacer(),
           IconButton(
             onPressed: () {

@@ -13,6 +13,7 @@ class HomePage extends StatelessWidget {
       routes: const [
         HomeScreenRouter(),
         TripDetailsRouter(),
+        FoundTripsRouter(),
       ],
       bottomNavigationBuilder: (_, tabsRouter) {
         return SalomonBottomBar(
@@ -38,6 +39,14 @@ class HomePage extends StatelessWidget {
                 size: 30,
               ),
               title: const Text('Trip details'),
+            ),
+            SalomonBottomBarItem(
+              selectedColor: Colors.pinkAccent[100],
+              icon: const Icon(
+                Icons.notifications,
+                size: 30,
+              ),
+              title: const Text('Found trips'),
             )
           ],
         );

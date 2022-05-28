@@ -123,6 +123,7 @@ class _NewTripDetailsScreenState extends State<NewTripDetailsScreen> {
                       toCity: _toCityTextController.text,
                       startDate: DateTime.parse(_selectedDate),
                       userRegistrationToken: userRegistrationToken,
+                      foundTrips: 0,
                     )));
                   }
                 },

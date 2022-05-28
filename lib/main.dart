@@ -4,13 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:myapp/core/auth/bloc/auth_bloc.dart';
+import 'package:myapp/core/notifications/notifications.dart';
 import 'package:myapp/routes/app_router.gr.dart';
 import 'package:myapp/routes/auth_guard.dart';
 import 'package:myapp/services/auth_service.dart';
 import 'package:myapp/storage.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print("Handling a background message: ${message.messageId}");
+  Notifications.showNotification(
+    title:
+        'Found ${message.data['numberOfNewTrips']} new trips! Check them out!',
+  );
 }
 
 Future<void> main() async {
@@ -21,16 +25,18 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
+  await FirebaseMessaging.instance.getToken();
+
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   FirebaseMessaging.onMessage.listen((event) {
-    print("Got a message whilist in the foreground!");
-    print("Message data: ${event.data}");
-
-    if (event.notification != null) {
-      print("Message also contained a notification: ${event.notification}");
-    }
+    Notifications.showNotification(
+      title:
+          'Found ${event.data['numberOfNewTrips']} new trips! Check them out!',
+    );
   });
+
+  Notifications.init();
 
   runApp(MultiBlocProvider(
     providers: [

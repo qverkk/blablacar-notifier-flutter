@@ -31,6 +31,10 @@ class TripDetailsBloc extends Bloc<TripDetailsEvent, TripDetailsState> {
     emit.call(Loading());
     try {
       var tripDetails = await repository.getAll(authState.token);
+      for (var element in tripDetails) {
+        element.foundTrips =
+            await repository.getTripsFound(element.id!, authState.token);
+      }
       emit.call(TripDetailsLoaded(data: tripDetails));
     } on DioError catch (e) {
       emit.call(TripDetailsError(message: e.message));

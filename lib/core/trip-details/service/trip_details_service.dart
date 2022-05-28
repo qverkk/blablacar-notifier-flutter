@@ -46,6 +46,24 @@ class TripDetailsService {
     }
   }
 
+  Future<num> countFoundTrips(String tripRequestId, String sessionToken) async {
+    final Dio client = Dio();
+    try {
+      var response = await client.get(
+        'http://192.168.0.199:8080/trips-found/$tripRequestId/count',
+        options: Options(
+          headers: {
+            "kratos-session": sessionToken,
+          },
+        ),
+      );
+
+      return response.data;
+    } catch (_) {
+      return 0;
+    }
+  }
+
   Future<void> deleteById(String id, String sessionToken) async {
     final Dio client = Dio();
     try {
