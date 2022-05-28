@@ -6,6 +6,7 @@ class TripDetails {
   final String toCity;
   final DateTime startDate;
   final DateTime endDate;
+  final String userRegistrationToken;
 
   const TripDetails({
     this.id,
@@ -13,6 +14,7 @@ class TripDetails {
     required this.toCity,
     required this.startDate,
     required this.endDate,
+    required this.userRegistrationToken,
   });
 
   factory TripDetails.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,7 @@ class TripDetails {
       toCity: json['toCity'] as String,
       startDate: DateTime.parse(json['startDate'] as String),
       endDate: DateTime.parse(json['endDate'] as String),
+      userRegistrationToken: json['userRegistrationToken'] as String,
     );
   }
 
@@ -31,5 +34,6 @@ class TripDetails {
         'toCity': toCity,
         'startDate': DateFormat('yyyy-MM-dd').format(startDate),
         'endDate': DateFormat('yyyy-MM-dd').format(endDate),
+        'userRegistrationToken': userRegistrationToken,
       };
 }

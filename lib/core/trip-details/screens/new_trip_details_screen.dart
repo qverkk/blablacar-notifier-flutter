@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/core/trip-details/bloc/trip_details_bloc.dart';
@@ -111,14 +112,17 @@ class _NewTripDetailsScreenState extends State<NewTripDetailsScreen> {
                 vertical: 10,
               ),
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     var bloc = BlocProvider.of<TripDetailsBloc>(context);
+                    var userRegistrationToken =
+                        await FirebaseMessaging.instance.getToken() as String;
                     bloc.add(AddNewTripDetails(TripDetails(
                       endDate: DateTime.parse(_selectedDate),
                       fromCity: _fromCityTextController.text,
                       toCity: _toCityTextController.text,
                       startDate: DateTime.parse(_selectedDate),
+                      userRegistrationToken: userRegistrationToken,
                     )));
                   }
                 },
