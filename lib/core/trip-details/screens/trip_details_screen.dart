@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:myapp/core/auth/bloc/auth_bloc.dart';
+import 'package:myapp/core/found-trips/screens/found_trips_screen.dart';
 import 'package:myapp/core/trip-details/bloc/trip_details_bloc.dart';
 import 'package:myapp/core/trip-details/models/trip_details.dart';
 import 'package:myapp/core/trip-details/repository/trip_details_repository.dart';
@@ -30,7 +31,7 @@ class TripDetailsScreen extends StatelessWidget {
         child: BlocConsumer<TripDetailsBloc, TripDetailsState>(
           listener: (context, state) => {},
           builder: (context, state) {
-            if (state is Loading) {
+            if (state is LoadingTripDetails) {
               return const Scaffold(
                 body: Center(
                   child: CircularProgressIndicator(),
@@ -38,7 +39,12 @@ class TripDetailsScreen extends StatelessWidget {
               );
             }
 
-            if (state is AddingTripDetails) {
+            if (state is ViewingFoundTrips) {
+              return FoundTripsScreen(
+                requestTripId: state.requestTripId,
+                title: state.title,
+              );
+            } else if (state is AddingTripDetails) {
               return const NewTripDetailsScreen();
             } else if (state is TripDetailsLoaded) {
               return RefreshIndicator(
@@ -129,25 +135,31 @@ class _TripDetailsListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Row(
-        children: [
-          Text(
-              "${item.fromCity} -> ${item.toCity} ${formatter.format(item.startDate)}"),
-          const Spacer(),
-          CircleAvatar(
-            backgroundColor: Colors.grey,
-            child: Text("${item.foundTrips}"),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: GestureDetector(
+          onTap: () {
+            final bloc = BlocProvider.of<TripDetailsBloc>(context);
+            bloc.add(ViewFoundTrips(item.id!,
+                '${item.fromCity} -> ${item.toCity} ${formatter.format(item.startDate)}'));
+          },
+          child: Row(
+            children: [
+              Text(
+                  "${item.fromCity} -> ${item.toCity} ${formatter.format(item.startDate)}"),
+              const Spacer(),
+              CircleAvatar(
+                backgroundColor: Colors.grey,
+                child: Text("${item.foundTrips}"),
+              ),
+              IconButton(
+                onPressed: () {
+                  final bloc = BlocProvider.of<TripDetailsBloc>(context);
+                  bloc.add(DeleteTripDetailsEvent(item.id!));
+                },
+                icon: const Icon(Icons.delete_forever_outlined),
+              ),
+            ],
           ),
-          IconButton(
-            onPressed: () {
-              final bloc = BlocProvider.of<TripDetailsBloc>(context);
-              bloc.add(DeleteTripDetailsEvent(item.id!));
-            },
-            icon: const Icon(Icons.delete_forever_outlined),
-          ),
-        ],
-      ),
-    );
+        ));
   }
 }

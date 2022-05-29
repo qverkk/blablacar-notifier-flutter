@@ -12,4 +12,8 @@ class FoundTripsRepository {
 
   Future<bool> notifyAgain(String tripId, String sessionToken) =>
       service.notifyAgain(tripId, sessionToken);
+
+  Future<List<FoundTrip>> getFoundTripsForRequestedTrip(
+          String requestTripId, String sessionToken) =>
+      service.getFoundTripsForRequestedTrip(requestTripId, sessionToken);
 }

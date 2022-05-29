@@ -11,6 +11,16 @@ class InitTripDetails extends TripDetailsEvent {}
 
 class OpenNewTripDetailsScreen extends TripDetailsEvent {}
 
+class ViewFoundTrips extends TripDetailsEvent {
+  final String requestTripId;
+  final String title;
+
+  const ViewFoundTrips(this.requestTripId, this.title);
+
+  @override
+  List<Object> get props => [requestTripId, title];
+}
+
 class AddNewTripDetails extends TripDetailsEvent {
   final TripDetails tripDetails;
 

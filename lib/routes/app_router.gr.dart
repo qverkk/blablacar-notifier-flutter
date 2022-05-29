@@ -47,8 +47,13 @@ class AppRouter extends _i6.RootStackRouter {
           routeData: routeData, child: const _i4.TripDetailsScreen());
     },
     FoundTripsRouter.name: (routeData) {
+      final args = routeData.argsAs<FoundTripsRouterArgs>();
       return _i6.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i5.FoundTripsScreen());
+          routeData: routeData,
+          child: _i5.FoundTripsScreen(
+              key: args.key,
+              requestTripId: args.requestTripId,
+              title: args.title));
     }
   };
 
@@ -106,8 +111,29 @@ class TripDetailsRouter extends _i6.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.FoundTripsScreen]
-class FoundTripsRouter extends _i6.PageRouteInfo<void> {
-  const FoundTripsRouter() : super(FoundTripsRouter.name, path: 'found-trips');
+class FoundTripsRouter extends _i6.PageRouteInfo<FoundTripsRouterArgs> {
+  FoundTripsRouter(
+      {_i7.Key? key, required String requestTripId, required String title})
+      : super(FoundTripsRouter.name,
+            path: 'found-trips',
+            args: FoundTripsRouterArgs(
+                key: key, requestTripId: requestTripId, title: title));
 
   static const String name = 'FoundTripsRouter';
+}
+
+class FoundTripsRouterArgs {
+  const FoundTripsRouterArgs(
+      {this.key, required this.requestTripId, required this.title});
+
+  final _i7.Key? key;
+
+  final String requestTripId;
+
+  final String title;
+
+  @override
+  String toString() {
+    return 'FoundTripsRouterArgs{key: $key, requestTripId: $requestTripId, title: $title}';
+  }
 }

@@ -8,9 +8,15 @@ abstract class TripDetailsState extends Equatable {
   List<Object> get props => [];
 }
 
-class Loading extends TripDetailsState {}
+class LoadingTripDetails extends TripDetailsState {}
 
 class AddingTripDetails extends TripDetailsState {}
+
+class ViewingFoundTrips extends TripDetailsState {
+  final String requestTripId;
+  final String title;
+  const ViewingFoundTrips(this.requestTripId, this.title);
+}
 
 class TripDetailsLoaded extends TripDetailsState {
   final List<TripDetails> data;

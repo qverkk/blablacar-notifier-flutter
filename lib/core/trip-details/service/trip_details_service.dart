@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:myapp/core/found-trips/models/found_trips.dart';
 import 'package:myapp/core/trip-details/models/trip_details.dart';
 
 class TripDetailsService {
@@ -43,6 +44,8 @@ class TripDetailsService {
       return response.statusCode == 201;
     } catch (_) {
       return false;
+    } finally {
+      client.close();
     }
   }
 
@@ -61,6 +64,8 @@ class TripDetailsService {
       return response.data;
     } catch (_) {
       return 0;
+    } finally {
+      client.close();
     }
   }
 
@@ -77,6 +82,9 @@ class TripDetailsService {
           receiveTimeout: 5,
         ),
       );
-    } catch (_) {}
+    } catch (_) {
+    } finally {
+      client.close();
+    }
   }
 }

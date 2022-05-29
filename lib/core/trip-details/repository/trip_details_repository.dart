@@ -1,3 +1,4 @@
+import 'package:myapp/core/found-trips/models/found_trips.dart';
 import 'package:myapp/core/trip-details/models/trip_details.dart';
 import 'package:myapp/core/trip-details/service/trip_details_service.dart';
 
@@ -10,7 +11,7 @@ class TripDetailsRepository {
   Future<List<TripDetails>> getAll(String sessionToken) =>
       service.fetchTripDetails(sessionToken);
 
-  Future<num> getTripsFound(String tripRequestId, String sessionToken) =>
+  Future<num> getTripsFoundCount(String tripRequestId, String sessionToken) =>
       service.countFoundTrips(tripRequestId, sessionToken);
 
   Future<bool> save(TripDetails tripDetails, String sessionToken) =>

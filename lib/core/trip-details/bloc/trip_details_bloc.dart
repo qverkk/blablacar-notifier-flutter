@@ -16,11 +16,12 @@ class TripDetailsBloc extends Bloc<TripDetailsEvent, TripDetailsState> {
   final AuthBloc authBloc;
 
   TripDetailsBloc({required this.repository, required this.authBloc})
-      : super(Loading()) {
+      : super(LoadingTripDetails()) {
     on<InitTripDetails>(_initTripDetails);
     on<OpenNewTripDetailsScreen>(_openNewTripDetailsScreen);
     on<AddNewTripDetails>(_addNewTripDetails);
     on<DeleteTripDetailsEvent>(_deleteTripDetails);
+    on<ViewFoundTrips>(_openFoundTrips);
   }
 
   FutureOr<void> _initTripDetails(
@@ -28,12 +29,12 @@ class TripDetailsBloc extends Bloc<TripDetailsEvent, TripDetailsState> {
     Emitter<TripDetailsState> emit,
   ) async {
     final authState = authBloc.state as AuthAuthenticated;
-    emit.call(Loading());
+    emit.call(LoadingTripDetails());
     try {
       var tripDetails = await repository.getAll(authState.token);
       for (var element in tripDetails) {
         element.foundTrips =
-            await repository.getTripsFound(element.id!, authState.token);
+            await repository.getTripsFoundCount(element.id!, authState.token);
       }
       emit.call(TripDetailsLoaded(data: tripDetails));
     } on DioError catch (e) {
@@ -48,12 +49,19 @@ class TripDetailsBloc extends Bloc<TripDetailsEvent, TripDetailsState> {
     emit.call(AddingTripDetails());
   }
 
+  FutureOr<void> _openFoundTrips(
+    ViewFoundTrips event,
+    Emitter<TripDetailsState> emit,
+  ) {
+    emit.call(ViewingFoundTrips(event.requestTripId, event.title));
+  }
+
   FutureOr<void> _addNewTripDetails(
     AddNewTripDetails event,
     Emitter<TripDetailsState> emit,
   ) async {
     final authState = authBloc.state as AuthAuthenticated;
-    emit.call(Loading());
+    emit.call(LoadingTripDetails());
     var success = await repository.save(
       event.tripDetails,
       authState.token,
@@ -71,7 +79,7 @@ class TripDetailsBloc extends Bloc<TripDetailsEvent, TripDetailsState> {
     Emitter<TripDetailsState> emit,
   ) async {
     final authState = authBloc.state as AuthAuthenticated;
-    emit.call(Loading());
+    emit.call(LoadingTripDetails());
     await repository.deleteById(
       event.id,
       authState.token,

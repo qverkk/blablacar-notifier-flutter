@@ -27,7 +27,8 @@ class FoundTripsBloc extends Bloc<FoundTripsEvent, FoundTripsState> {
     final authState = authBloc.state as AuthAuthenticated;
     emit.call(Loading());
     try {
-      var foundTrips = await repository.getAll(authState.token);
+      var foundTrips = await repository.getFoundTripsForRequestedTrip(
+          event.requestTripId, authState.token);
       emit.call(FoundTripsLoaded(data: foundTrips));
     } on DioError catch (e) {
       emit.call(FoundTripsError(message: e.message));
@@ -42,7 +43,7 @@ class FoundTripsBloc extends Bloc<FoundTripsEvent, FoundTripsState> {
     emit.call(Loading());
     try {
       await repository.notifyAgain(event.tripId, authState.token);
-      add(InitFoundTrips());
+      add(InitFoundTrips(event.requestTripId));
     } on DioError catch (e) {
       emit.call(FoundTripsError(message: e.message));
     }

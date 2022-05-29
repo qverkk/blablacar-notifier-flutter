@@ -15,6 +15,25 @@ class FoundTripsService {
     }
   }
 
+  Future<List<FoundTrip>> getFoundTripsForRequestedTrip(
+      String requestTripId, String sessionToken) async {
+    final Dio client = Dio();
+    try {
+      var response = await client.get(
+        'http://192.168.0.199:8080/trip-details/$requestTripId/found-trips',
+        options: Options(
+          headers: {
+            "kratos-session": sessionToken,
+          },
+        ),
+      );
+
+      return parseTripsFound(response.data);
+    } finally {
+      client.close();
+    }
+  }
+
   List<FoundTrip> parseTripsFound(List responseBody) {
     return responseBody.map((value) => FoundTrip.fromJson(value)).toList();
   }

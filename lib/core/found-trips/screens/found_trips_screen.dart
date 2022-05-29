@@ -7,9 +7,15 @@ import 'package:myapp/core/found-trips/bloc/found_trips_bloc.dart';
 import 'package:myapp/core/found-trips/models/found_trips.dart';
 import 'package:myapp/core/found-trips/repository/found_trips_repository.dart';
 import 'package:myapp/core/found-trips/service/found_trips_service.dart';
+import 'package:myapp/core/trip-details/bloc/trip_details_bloc.dart';
 
 class FoundTripsScreen extends StatelessWidget {
-  const FoundTripsScreen({Key? key}) : super(key: key);
+  final String requestTripId;
+  final String title;
+
+  const FoundTripsScreen(
+      {Key? key, required this.requestTripId, required this.title})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,50 +25,81 @@ class FoundTripsScreen extends StatelessWidget {
     final bloc = FoundTripsBloc(
       repository: repository,
       authBloc: authBloc,
-    )..add(InitFoundTrips());
+    )..add(InitFoundTrips(requestTripId));
 
-    return RepositoryProvider(
-      create: ((context) => repository),
-      child: BlocProvider(
-        create: ((context) => bloc),
-        child: BlocConsumer<FoundTripsBloc, FoundTripsState>(
-          listener: (context, state) => {},
-          builder: (context, state) {
-            if (state is Loading) {
-              return const Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }
-
-            if (state is FoundTripsLoaded) {
-              return RefreshIndicator(
-                child: Scaffold(
-                  body: ListView.separated(
-                    itemBuilder: (context, index) =>
-                        _FoundTripsListItem(item: state.data[index]),
-                    separatorBuilder: (context, index) => const Divider(
-                      height: 1,
-                    ),
-                    itemCount: state.data.length,
-                  ),
-                ),
-                onRefresh: () =>
-                    Future.microtask(() => bloc.add(InitFoundTrips())),
-              );
-            } else if (state is FoundTripsError) {
-              return errorMessageWithRefreshButton(
-                bloc,
-                "Some error occured ${state.message}.",
-              );
-            } else {
-              return errorMessageWithRefreshButton(
-                bloc,
-                "Some error occured.",
-              );
-            }
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Found trips'),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  var bloc = BlocProvider.of<TripDetailsBloc>(context);
+                  bloc.add(InitTripDetails());
+                });
           },
+        ),
+      ),
+      body: RepositoryProvider(
+        create: ((context) => repository),
+        child: BlocProvider(
+          create: ((context) => bloc),
+          child: BlocConsumer<FoundTripsBloc, FoundTripsState>(
+            listener: (context, state) => {},
+            builder: (context, state) {
+              if (state is Loading) {
+                return const Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+
+              if (state is FoundTripsLoaded) {
+                return RefreshIndicator(
+                  child: Scaffold(
+                    body: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Text(
+                            title,
+                            style: const TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        Expanded(
+                          child: ListView.separated(
+                            itemBuilder: (context, index) =>
+                                _FoundTripsListItem(
+                              item: state.data[index],
+                              requestTripId: requestTripId,
+                            ),
+                            separatorBuilder: (context, index) => const Divider(
+                              height: 1,
+                            ),
+                            itemCount: state.data.length,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  onRefresh: () => Future.microtask(
+                      () => bloc.add(InitFoundTrips(requestTripId))),
+                );
+              } else if (state is FoundTripsError) {
+                return errorMessageWithRefreshButton(
+                  bloc,
+                  "Some error occured ${state.message}.",
+                );
+              } else {
+                return errorMessageWithRefreshButton(
+                  bloc,
+                  "Some error occured.",
+                );
+              }
+            },
+          ),
         ),
       ),
     );
@@ -82,7 +119,8 @@ class FoundTripsScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               ElevatedButton(
-                  onPressed: () async => bloc.add(InitFoundTrips()),
+                  onPressed: () async =>
+                      bloc.add(InitFoundTrips(requestTripId)),
                   child: const Text(
                     'Refresh',
                   )),
@@ -96,8 +134,11 @@ class FoundTripsScreen extends StatelessWidget {
 
 class _FoundTripsListItem extends StatelessWidget {
   final FoundTrip item;
+  final String requestTripId;
 
-  const _FoundTripsListItem({Key? key, required this.item}) : super(key: key);
+  const _FoundTripsListItem(
+      {Key? key, required this.item, required this.requestTripId})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +151,7 @@ class _FoundTripsListItem extends StatelessWidget {
           IconButton(
             onPressed: () {
               final bloc = BlocProvider.of<FoundTripsBloc>(context);
-              bloc.add(NotifyAgainEvent(item.id));
+              bloc.add(NotifyAgainEvent(requestTripId, item.id));
             },
             icon: const Icon(
               Icons.notification_important,
