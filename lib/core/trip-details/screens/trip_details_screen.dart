@@ -75,7 +75,7 @@ class TripDetailsScreen extends StatelessWidget {
                     itemBuilder: (context, index) =>
                         _TripDetailsListItem(item: state.data[index]),
                     separatorBuilder: (context, index) => const Divider(
-                      height: 1,
+                      height: 20,
                     ),
                     itemCount: state.data.length,
                   ),

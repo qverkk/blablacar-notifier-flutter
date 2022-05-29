@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:myapp/core/auth/bloc/auth_bloc.dart';
 import 'package:myapp/core/found-trips/bloc/found_trips_bloc.dart';
 import 'package:myapp/core/found-trips/models/found_trips.dart';
@@ -76,7 +77,7 @@ class FoundTripsScreen extends StatelessWidget {
                               requestTripId: requestTripId,
                             ),
                             separatorBuilder: (context, index) => const Divider(
-                              height: 1,
+                              height: 20,
                             ),
                             itemCount: state.data.length,
                           ),
@@ -135,8 +136,9 @@ class FoundTripsScreen extends StatelessWidget {
 class _FoundTripsListItem extends StatelessWidget {
   final FoundTrip item;
   final String requestTripId;
+  final DateFormat formatter = DateFormat("dd-MM-yyyy HH:mm:ss");
 
-  const _FoundTripsListItem(
+  _FoundTripsListItem(
       {Key? key, required this.item, required this.requestTripId})
       : super(key: key);
 
@@ -146,12 +148,26 @@ class _FoundTripsListItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         children: [
-          Text("${item.id} : ${item.remainingSeats}"),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Available seats: ${item.remainingSeats}"),
+              Text("Driver name: ${item.driverDisplayName}"),
+              Text(
+                  "Driver title: ${item.driverStatusCode} ${item.driverStatusLabel ?? ''}"),
+              Text(
+                  "Rating: ${item.driverRating}. Ratings: ${item.driverRatingsCount}"),
+              Text(
+                  "Departure time: ${formatter.format(DateTime.parse(item.fromCityDepartureTime).toLocal())}"),
+              Text(
+                  "Arrival time: ${formatter.format(DateTime.parse(item.toCityDepartureTime).toLocal())}"),
+            ],
+          ),
           const Spacer(),
           IconButton(
             onPressed: () {
               final bloc = BlocProvider.of<FoundTripsBloc>(context);
-              bloc.add(NotifyAgainEvent(requestTripId, item.id));
+              bloc.add(NotifyAgainEvent(item.id, requestTripId));
             },
             icon: const Icon(
               Icons.notification_important,

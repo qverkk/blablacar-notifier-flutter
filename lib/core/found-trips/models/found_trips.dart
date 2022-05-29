@@ -13,6 +13,8 @@ class FoundTrip {
   final num driverRatingsCount;
   final String driverStatusCode;
   final String? driverStatusLabel;
+  final String fromCityDepartureTime;
+  final String toCityDepartureTime;
 
   const FoundTrip({
     required this.id,
@@ -29,6 +31,8 @@ class FoundTrip {
     required this.driverRatingsCount,
     required this.driverStatusCode,
     required this.driverStatusLabel,
+    required this.fromCityDepartureTime,
+    required this.toCityDepartureTime,
   });
 
   factory FoundTrip.fromJson(Map<String, dynamic> json) {
@@ -46,7 +50,9 @@ class FoundTrip {
       driverDisplayName: json['driverDisplayName'] as String,
       driverRatingsCount: json['driverRatingsCount'] as num,
       driverStatusCode: json['driverStatusCode'] as String,
-      driverStatusLabel: json[' driverStatusLabel'] as String?,
+      driverStatusLabel: json['driverStatusLabel'] as String?,
+      fromCityDepartureTime: json['fromCityDepartureTime'] as String,
+      toCityDepartureTime: json['toCityDepartureTime'] as String,
     );
   }
 }
