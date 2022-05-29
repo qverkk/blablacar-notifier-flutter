@@ -50,7 +50,7 @@ class TripDetailsService {
     final Dio client = Dio();
     try {
       var response = await client.get(
-        'http://192.168.0.199:8080/trips-found/$tripRequestId/count',
+        'http://192.168.0.199:8080/trip-details/$tripRequestId/found-trips/count',
         options: Options(
           headers: {
             "kratos-session": sessionToken,
