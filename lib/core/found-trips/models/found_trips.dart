@@ -6,6 +6,7 @@ class FoundTrip {
   final bool notifyFreeSeats;
   final String price;
   final num remainingSeats;
+  final num maxSeats;
   final String userRegisteredToken;
   final String userId;
   final num driverRating;
@@ -24,6 +25,7 @@ class FoundTrip {
     required this.notifyFreeSeats,
     required this.price,
     required this.remainingSeats,
+    required this.maxSeats,
     required this.userRegisteredToken,
     required this.userId,
     required this.driverRating,
@@ -43,12 +45,13 @@ class FoundTrip {
       notified: json['notified'] as bool,
       notifyFreeSeats: json['notifyFreeSeats'] as bool,
       price: json['price'] as String,
-      remainingSeats: json['remainingSeats'] as num,
+      remainingSeats: json['remainingSeats'] as num? ?? 0,
+      maxSeats: json['maxSeats'] as num? ?? 0,
       userRegisteredToken: json['userRegisteredToken'] as String,
       userId: json['userId'] as String,
-      driverRating: json['driverRating'] as num,
+      driverRating: json['driverRating'] as num? ?? 0,
       driverDisplayName: json['driverDisplayName'] as String,
-      driverRatingsCount: json['driverRatingsCount'] as num,
+      driverRatingsCount: json['driverRatingsCount'] as num? ?? 0,
       driverStatusCode: json['driverStatusCode'] as String,
       driverStatusLabel: json['driverStatusLabel'] as String?,
       fromCityDepartureTime: json['fromCityDepartureTime'] as String,

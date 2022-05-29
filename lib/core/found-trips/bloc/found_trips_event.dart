@@ -25,3 +25,12 @@ class NotifyAgainEvent extends FoundTripsEvent {
   @override
   List<Object> get props => [tripId, requestTripId];
 }
+
+class NotifyAllAgainEvent extends FoundTripsEvent {
+  final String requestTripId;
+
+  const NotifyAllAgainEvent(this.requestTripId);
+
+  @override
+  List<Object> get props => [requestTripId];
+}

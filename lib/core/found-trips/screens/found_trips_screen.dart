@@ -64,9 +64,24 @@ class FoundTripsScreen extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                            title,
-                            style: const TextStyle(fontSize: 18),
+                          child: Row(
+                            children: [
+                              Text(
+                                title,
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                              const Spacer(),
+                              IconButton(
+                                onPressed: () {
+                                  final bloc =
+                                      BlocProvider.of<FoundTripsBloc>(context);
+                                  bloc.add(NotifyAllAgainEvent(requestTripId));
+                                },
+                                icon: const Icon(
+                                  Icons.notification_add_rounded,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         Expanded(
@@ -151,7 +166,8 @@ class _FoundTripsListItem extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Available seats: ${item.remainingSeats}"),
+              Text(
+                  "Available seats: ${item.remainingSeats}. Max seats: ${item.maxSeats}"),
               Text("Driver name: ${item.driverDisplayName}"),
               Text(
                   "Driver title: ${item.driverStatusCode} ${item.driverStatusLabel ?? ''}"),
@@ -166,11 +182,15 @@ class _FoundTripsListItem extends StatelessWidget {
           const Spacer(),
           IconButton(
             onPressed: () {
-              final bloc = BlocProvider.of<FoundTripsBloc>(context);
-              bloc.add(NotifyAgainEvent(item.id, requestTripId));
+              if (!item.notifyFreeSeats) {
+                final bloc = BlocProvider.of<FoundTripsBloc>(context);
+                bloc.add(NotifyAgainEvent(item.id, requestTripId));
+              }
             },
-            icon: const Icon(
-              Icons.notification_important,
+            icon: Icon(
+              item.notifyFreeSeats
+                  ? Icons.timelapse_rounded
+                  : Icons.notification_add_rounded,
             ),
           ),
         ],

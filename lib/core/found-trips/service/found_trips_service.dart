@@ -58,4 +58,25 @@ class FoundTripsService {
       return false;
     }
   }
+
+  Future<bool> notifyAllAgain(
+    String requestTripId,
+    String sessionToken,
+  ) async {
+    final Dio client = Dio();
+    try {
+      var response = await client.patch(
+        'http://192.168.0.199:8080/trip-details/$requestTripId/found-trips/notify',
+        options: Options(
+          headers: {
+            "kratos-session": sessionToken,
+          },
+        ),
+      );
+
+      return response.statusCode == 200;
+    } catch (_) {
+      return false;
+    }
+  }
 }

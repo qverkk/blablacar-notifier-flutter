@@ -18,6 +18,7 @@ class FoundTripsBloc extends Bloc<FoundTripsEvent, FoundTripsState> {
       : super(FoundTripsInitial()) {
     on<InitFoundTrips>(_initFoundTrips);
     on<NotifyAgainEvent>(_notifyAgain);
+    on<NotifyAllAgainEvent>(_notifyAllAgain);
   }
 
   FutureOr<void> _initFoundTrips(
@@ -43,6 +44,20 @@ class FoundTripsBloc extends Bloc<FoundTripsEvent, FoundTripsState> {
     emit.call(Loading());
     try {
       await repository.notifyAgain(event.tripId, authState.token);
+      add(InitFoundTrips(event.requestTripId));
+    } on DioError catch (e) {
+      emit.call(FoundTripsError(message: e.message));
+    }
+  }
+
+  FutureOr<void> _notifyAllAgain(
+    NotifyAllAgainEvent event,
+    Emitter<FoundTripsState> emit,
+  ) async {
+    final authState = authBloc.state as AuthAuthenticated;
+    emit.call(Loading());
+    try {
+      await repository.notifyAllAgain(event.requestTripId, authState.token);
       add(InitFoundTrips(event.requestTripId));
     } on DioError catch (e) {
       emit.call(FoundTripsError(message: e.message));
