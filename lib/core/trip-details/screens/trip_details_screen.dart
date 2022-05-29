@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:myapp/core/auth/bloc/auth_bloc.dart';
 import 'package:myapp/core/trip-details/bloc/trip_details_bloc.dart';
 import 'package:myapp/core/trip-details/models/trip_details.dart';
@@ -121,8 +122,9 @@ class TripDetailsScreen extends StatelessWidget {
 
 class _TripDetailsListItem extends StatelessWidget {
   final TripDetails item;
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
 
-  const _TripDetailsListItem({Key? key, required this.item}) : super(key: key);
+  _TripDetailsListItem({Key? key, required this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -131,8 +133,12 @@ class _TripDetailsListItem extends StatelessWidget {
       child: Row(
         children: [
           Text(
-              "${item.fromCity} -> ${item.toCity} (${item.startDate}).\n Trips found: ${item.foundTrips}"),
+              "${item.fromCity} -> ${item.toCity} ${formatter.format(item.startDate)}"),
           const Spacer(),
+          CircleAvatar(
+            backgroundColor: Colors.grey,
+            child: Text("${item.foundTrips}"),
+          ),
           IconButton(
             onPressed: () {
               final bloc = BlocProvider.of<TripDetailsBloc>(context);
