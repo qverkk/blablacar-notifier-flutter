@@ -63,7 +63,7 @@ class FoundTripsScreen extends StatelessWidget {
                     body: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.all(10.0),
                           child: Text(
                             title,
                             style: const TextStyle(fontSize: 18),

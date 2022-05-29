@@ -1,7 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myapp/core/auth/bloc/auth_bloc.dart';
-import 'package:myapp/routes/app_router.gr.dart';
 import 'package:myapp/storage.dart';
 
 class AuthGuard extends AutoRouteGuard {

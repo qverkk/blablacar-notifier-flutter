@@ -6,8 +6,7 @@ class FoundTripsRepository {
 
   FoundTripsService service;
 
-  @override
-  Future<List<FoundTrip>> getAll(String sessionToken) =>
+  Future<List<FoundTrip>> getAllFoundTrips(String sessionToken) =>
       service.fetchFoundTrips(sessionToken);
 
   Future<bool> notifyAgain(String tripId, String sessionToken) =>

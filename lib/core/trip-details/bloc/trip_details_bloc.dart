@@ -31,7 +31,7 @@ class TripDetailsBloc extends Bloc<TripDetailsEvent, TripDetailsState> {
     final authState = authBloc.state as AuthAuthenticated;
     emit.call(LoadingTripDetails());
     try {
-      var tripDetails = await repository.getAll(authState.token);
+      var tripDetails = await repository.getAllTripDetails(authState.token);
       for (var element in tripDetails) {
         element.foundTrips =
             await repository.getTripsFoundCount(element.id!, authState.token);

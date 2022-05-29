@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:myapp/core/found-trips/models/found_trips.dart';
 import 'package:myapp/core/trip-details/models/trip_details.dart';
 
 class TripDetailsService {
