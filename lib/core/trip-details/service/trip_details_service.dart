@@ -34,8 +34,6 @@ class TripDetailsService {
             'Content-Type': 'application/json',
             "kratos-session": sessionToken,
           },
-          sendTimeout: 5,
-          receiveTimeout: 5,
         ),
         data: jsonEncode(tripDetails),
       );
@@ -77,8 +75,6 @@ class TripDetailsService {
           headers: {
             "kratos-session": sessionToken,
           },
-          sendTimeout: 5,
-          receiveTimeout: 5,
         ),
       );
     } catch (_) {

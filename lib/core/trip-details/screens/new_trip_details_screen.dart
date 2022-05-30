@@ -116,14 +116,18 @@ class _NewTripDetailsScreenState extends State<NewTripDetailsScreen> {
                     var bloc = BlocProvider.of<TripDetailsBloc>(context);
                     var userRegistrationToken =
                         await FirebaseMessaging.instance.getToken() as String;
-                    bloc.add(AddNewTripDetails(TripDetails(
-                      endDate: DateTime.parse(_selectedDate),
-                      fromCity: _fromCityTextController.text,
-                      toCity: _toCityTextController.text,
-                      startDate: DateTime.parse(_selectedDate),
-                      userRegistrationToken: userRegistrationToken,
-                      foundTrips: 0,
-                    )));
+                    bloc.add(
+                      AddNewTripDetails(
+                        TripDetails(
+                          endDate: DateTime.parse(_selectedDate),
+                          fromCity: _fromCityTextController.text,
+                          toCity: _toCityTextController.text,
+                          startDate: DateTime.parse(_selectedDate),
+                          userRegistrationToken: userRegistrationToken,
+                          foundTrips: 0,
+                        ),
+                      ),
+                    );
                   }
                 },
                 style: ElevatedButton.styleFrom(

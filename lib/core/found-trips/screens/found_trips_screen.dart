@@ -9,6 +9,8 @@ import 'package:myapp/core/found-trips/models/found_trips.dart';
 import 'package:myapp/core/found-trips/repository/found_trips_repository.dart';
 import 'package:myapp/core/found-trips/service/found_trips_service.dart';
 import 'package:myapp/core/trip-details/bloc/trip_details_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class FoundTripsScreen extends StatelessWidget {
   final String requestTripId;
@@ -169,8 +171,8 @@ class _FoundTripsListItem extends StatelessWidget {
               Text(
                   "Available seats: ${item.remainingSeats}. Max seats: ${item.maxSeats}"),
               Text("Driver name: ${item.driverDisplayName}"),
-              Text(
-                  "Driver title: ${item.driverStatusCode} ${item.driverStatusLabel ?? ''}"),
+              Text("Driver title: ${item.driverStatusCode}"),
+              Text("Driver label: ${item.driverStatusLabel ?? 'none'}"),
               Text(
                   "Rating: ${item.driverRating}. Ratings: ${item.driverRatingsCount}"),
               Text(
@@ -180,6 +182,35 @@ class _FoundTripsListItem extends StatelessWidget {
             ],
           ),
           const Spacer(),
+          IconButton(
+            onPressed: () async {
+              // var url =
+              // 'https://www.blablacar.pl/trip?source=${item.blablacarSource}&id=${item.blablacarTripId}&proximity_from=${item.fromCityProximity}&distance_from=${item.fromCityDistance}&proximity_to=${item.toCityProximity}&distance_to=${item.toCityDistance}&requested_seats=1';
+              var blablacarUri = Uri(
+                host: 'blablacar.pl',
+                scheme: 'https',
+                path: 'trip',
+                queryParameters: {
+                  "source": item.blablacarSource,
+                  "id": item.blablacarTripId,
+                  "proximity_from": item.fromCityProximity,
+                  "distance_from": '${item.fromCityDistance}',
+                  "proximity_to": item.toCityProximity,
+                  "distance_to": '${item.toCityDistance}',
+                  "requested_seats": '1',
+                },
+              );
+              if (await canLaunchUrl(blablacarUri)) {
+                launchUrl(
+                  blablacarUri,
+                  mode: LaunchMode.externalApplication,
+                );
+              } else {
+                throw 'Could not launch $blablacarUri';
+              }
+            },
+            icon: const Icon(Icons.forward_sharp),
+          ),
           IconButton(
             onPressed: () {
               if (!item.notifyFreeSeats) {
